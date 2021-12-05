@@ -26,5 +26,23 @@ import re
 data = [re.sub(r'[^\w\s]','',s) for s in data]
 
 # remove stop words
+def removeStopWords(text):
+    list_stop_word = ['in', 'of', 'the', 'at']
+    if(len(text) < 2) or text in list_stop_word:
+        return None
+    return text
+data = [removeStopWords(t) for t in data]
+data = [t for t in data if t]
 
-print(data)
+# remove commonly used words
+list_common_words = ['like', 'get', 'to']
+data = [t for t in data if t not in list_common_words]
+
+# count word
+data_counted = {}
+for t in data:
+    if t not in data_counted.keys():
+        data_counted[t] = 1
+    else:
+        data_counted[t] += 1
+print(data_counted)
