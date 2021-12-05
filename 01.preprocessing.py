@@ -8,6 +8,7 @@
 
 import json
 import re
+import math
 
 # load data
 documents = []
@@ -18,10 +19,10 @@ with open("./yelp_academic_500-head-sample.json", "r") as f:
         documents.append(realText)
 
 
-def cleanText(document: str, word_count: list) -> list:
+def cleanText(document: str, word_count: list, word_list: dict) -> list:
     '''
     this function allows to leverage memory to overcome calculation time
-    side effect on word_count
+    side effect on word_count and word_list
     '''
 
     # define list
@@ -43,17 +44,38 @@ def cleanText(document: str, word_count: list) -> list:
         if w not in (list_stop_word + list_common_words)
     ]
 
-    # count words
+    # get and count words
     words = {}
+    silent = []
     for w in document_as_list:
+        # get word from document
+        if w not in silent:
+            if w not in word_list.keys():
+                word_list[w] = 1
+            else:
+                word_list[w] += 1
+            silent.append(w)
+        # count word in document
         words[w] = 1 if w not in words.keys() else (words[w] + 1)
     word_count.append(words)
 
     return document_as_list
 
 
-words = []
-documents = [cleanText(d, words) for d in documents]
+words = {}
+word_counts = []
+documents = [cleanText(d, word_counts, words) for d in documents]
 
 # statistic calculation
-print(words[0])
+D = len(documents)
+TF_IDF = [] # the (m * n) matrix with m is number of word and n is number of doc
+for widx, word in enumerate(words.keys()):
+    W_TF_IDF = []
+    for didx, doc in enumerate(documents):
+        IDF = math.log(D / words[word])
+        TF = word_counts[didx]
+        TF = 0 if word not in TF else TF[word] # case empty word in document
+        W_TF_IDF.append(IDF * TF)
+    TF_IDF.append(W_TF_IDF)
+
+#print(TF_IDF)
