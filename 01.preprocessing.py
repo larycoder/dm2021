@@ -68,14 +68,18 @@ documents = [cleanText(d, word_counts, words) for d in documents]
 
 # statistic calculation
 D = len(documents)
-TF_IDF = [] # the (m * n) matrix with m is number of word and n is number of doc
+
+# the (m * n) matrix with m is number of word and n is number of doc
+TF_IDF = []
+
 for widx, word in enumerate(words.keys()):
     W_TF_IDF = []
+    IDF = math.log(D / words[word])
     for didx, doc in enumerate(documents):
-        IDF = math.log(D / words[word])
         TF = word_counts[didx]
-        TF = 0 if word not in TF else TF[word] # case empty word in document
+        TF = 0 if word not in TF.keys() else TF[word]  # case empty word in document
         W_TF_IDF.append(IDF * TF)
     TF_IDF.append(W_TF_IDF)
 
-#print(TF_IDF)
+# NOTE: this is a sparse matrix
+print(TF_IDF)
