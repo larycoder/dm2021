@@ -6,46 +6,54 @@
 # 5. Remove commonly used words in reviews
 # 6. Statistically find words using TF-IDF
 
-# load data
 import json
+import re
 
-data = []
+# load data
+documents = []
 with open("./yelp_academic_500-head-sample.json", "r") as f:
     for text in f:
         jsonText = json.loads(text)
         realText = jsonText['text']
-        data.append(realText)
-
-# remove break space
-data = ' '.join(data)
-data = [t.lower() for t in data.split()]
-
-# remove punctuations
-import re
-
-data = [re.sub(r'[^\w\s]', '', s) for s in data]
+        documents.append(realText)
 
 
-# remove stop words
-def removeStopWords(text):
+def cleanText(document: str, word_count: list) -> list:
+    '''
+    this function allows to leverage memory to overcome calculation time
+    side effect on word_count
+    '''
+
+    # define list
     list_stop_word = ['in', 'of', 'the', 'at']
-    if (len(text) < 2) or text in list_stop_word:
-        return None
-    return text
+    list_common_words = ['like', 'get', 'to']
+
+    # remove punctuations
+    document = re.sub(r'[^\w\s]', '', document)
+
+    # lower document
+    document = document.lower()
+
+    # document as list
+    document_as_list = document.split()
+
+    # remove stop and common words
+    document_as_list = [
+        w for w in document_as_list
+        if w not in (list_stop_word + list_common_words)
+    ]
+
+    # count words
+    words = {}
+    for w in document_as_list:
+        words[w] = 1 if w not in words.keys() else (words[w] + 1)
+    word_count.append(words)
+
+    return document_as_list
 
 
-data = [removeStopWords(t) for t in data]
-data = [t for t in data if t]
+words = []
+documents = [cleanText(d, words) for d in documents]
 
-# remove commonly used words
-list_common_words = ['like', 'get', 'to']
-data = [t for t in data if t not in list_common_words]
-
-# count word
-data_counted = {}
-for t in data:
-    if t not in data_counted.keys():
-        data_counted[t] = 1
-    else:
-        data_counted[t] += 1
-print(data_counted)
+# statistic calculation
+print(words[0])
