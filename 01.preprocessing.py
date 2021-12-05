@@ -77,7 +77,8 @@ for widx, word in enumerate(words.keys()):
     IDF = math.log(D / words[word])
     for didx, doc in enumerate(documents):
         TF = word_counts[didx]
-        TF = 0 if word not in TF.keys() else TF[word]  # case empty word in document
+        # case empty word in document
+        TF = 0 if word not in TF.keys() else TF[word]
         W_TF_IDF.append(IDF * TF)
     TF_IDF.append(W_TF_IDF)
 
