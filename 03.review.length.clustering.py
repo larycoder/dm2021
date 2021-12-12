@@ -12,7 +12,11 @@ for row in range(length):
         d = abs(values[row] - values[col])
         len_matrix[row].append(d)
 
-print("len_matrix:\n", len_matrix)
+print("len_matrix:\n")
+print("(")
+for i in range(len(len_matrix)):
+    print("    ", len_matrix[i])
+print(")")
 
 
 class HierarchicalCluster():
@@ -52,7 +56,7 @@ class HierarchicalCluster():
             for j in range(c_len):
                 d_temp = self._dist(cluster[i], cluster[j])
                 if i != j and (d < 0 or d_temp < d):
-                    c1, c2, d_temp = i, j, d_temp
+                    c1, c2, d = i, j, d_temp
         # return right order
         if c2 < c1:
             return c2, c1
