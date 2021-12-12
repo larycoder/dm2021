@@ -62,9 +62,9 @@ class HierarchicalCluster():
             return c2, c1
         return c1, c2
 
-    def generate_cluster(self):
+    def generate_cluster(self, cluster_num):
         cluster = self._init_cluster()
-        while len(cluster) > 3:
+        while len(cluster) > cluster_num:
             idx1, idx2 = self._get_closest_cluster(cluster)
             c2 = cluster.pop(idx2)
             c1 = cluster.pop(idx1)
@@ -73,5 +73,5 @@ class HierarchicalCluster():
 
 
 cluster_builder = HierarchicalCluster(values, len_matrix)
-result_cluster = cluster_builder.generate_cluster()
+result_cluster = cluster_builder.generate_cluster(3)
 print("cluster:\n", result_cluster)
