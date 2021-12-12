@@ -1,7 +1,11 @@
 from lib import *
 
 # load data
-docs = load_docs_from_file("./yelp_academic_5-head-sample.json", "text")
+docs = load_docs_from_file(
+    "./yelp_academic_500-head-sample.json",
+    "text",
+    count=20,
+)
 values = [len(doc) for doc in docs]
 length = len(values)
 len_matrix = [[] for i in range(length)]
