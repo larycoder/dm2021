@@ -12,6 +12,8 @@ for row in range(length):
         d = abs(values[row] - values[col])
         len_matrix[row].append(d)
 
+print("len_matrix:\n", len_matrix)
+
 
 class HierarchicalCluster():
     # let each data be a cluster
@@ -65,6 +67,7 @@ class HierarchicalCluster():
             cluster.append([c1, c2])
         return cluster
 
+
 cluster_builder = HierarchicalCluster(values, len_matrix)
 result_cluster = cluster_builder.generate_cluster()
-print(result_cluster)
+print("cluster:\n", result_cluster)
