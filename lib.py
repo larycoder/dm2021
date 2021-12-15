@@ -1,5 +1,5 @@
 import json
-from typing import List
+
 
 def load_docs_from_file(filename, key, count=None):
     documents = []
