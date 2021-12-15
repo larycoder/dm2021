@@ -18,7 +18,7 @@ def print_cluster(clusters: list):
 docs = lib.load_docs_from_file(
     "./yelp_academic_500-head-sample.json",
     "text",
-    count=50, # number of sample with maximum is 500
+    count=50,  # number of sample with maximum is 500
 )
 data = [len(doc) for doc in docs]
 
