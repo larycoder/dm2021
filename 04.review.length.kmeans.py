@@ -63,6 +63,8 @@ class KmeanCluster(BaseCluster):
         self.old_centroid.v = self.centroid.v
         if len(self.els) > 0:
             self.centroid.v = int(total.v / len(self.els))
+        else:
+            self.centroid.v = 0
 
     def is_moved(self):
         '''
