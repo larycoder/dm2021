@@ -1,4 +1,5 @@
 import json
+import typing
 
 
 def load_docs_from_file(filename, key, count=None):
@@ -55,3 +56,11 @@ class BaseCluster:
         clear all element in cluster
         '''
         self.els.clear()
+
+    def display(self, cluster_name: str, extra_display: typing.Callable):
+        print("---------")
+        print(f"{cluster_name} info:")
+        extra_display()
+        print("elements list:")
+        print(self.els)
+        print("---------")
